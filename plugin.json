@@ -1,0 +1,120 @@
+{
+  "id": "django",
+  "name": "%plugin.name%",
+  "version": "0.1.0",
+  "vendor": "Lemon Paperplane",
+  "description": "%plugin.description%",
+  "icon": "icons/django.svg",
+  "category": "framework",
+  "engines": {"paperplane": ">=0.1.0 <0.2.0"},
+  "protocol": 1,
+  "executable": "bin/paperplane-plugin-django",
+  "dependencies": [{"id": "python"}],
+  "activation": {"files": ["manage.py"], "facets": ["python"]},
+  "contributes": {
+    "facets": [
+      {"id": "django", "name": "Django", "icon": "icons/django.svg", "category": "framework", "priority": 80}
+    ],
+    "runConfigurationTypes": [
+      {
+        "id": "django-server",
+        "name": "%run.server%",
+        "icon": "icons/django.svg",
+        "facets": ["django"],
+        "options": [
+          {"key": "host", "title": "%opt.host%", "type": "string", "default": "127.0.0.1", "info": "%opt.host.info%"},
+          {"key": "port", "title": "%opt.port%", "type": "number", "default": 8000},
+          {"key": "settings", "title": "%opt.settings%", "type": "select", "optionsFrom": "django.settings", "info": "%opt.settings.info%"},
+          {"key": "noreload", "title": "%opt.noreload%", "type": "boolean", "default": false, "advanced": true},
+          {"key": "args", "title": "%opt.args%", "type": "string"},
+          {"key": "manage", "title": "%opt.manage%", "type": "path", "default": "manage.py", "advanced": true},
+          {"key": "workingDir", "title": "%opt.workingDir%", "type": "path", "advanced": true},
+          {"key": "envFile", "title": "%opt.envFile%", "type": "path", "default": ".env", "info": "%opt.envFile.info%"},
+          {"key": "env", "title": "%opt.env%", "type": "keyvalue"}
+        ]
+      }
+    ],
+    "ideRunConfigTypes": ["Python.DjangoServer"],
+    "urlPatterns": [
+      {"hint": "development server at", "pattern": "development server at (https?://\\S+?)/?$", "ready": true, "facets": ["django"]}
+    ],
+    "diagnostics": [
+      {
+        "id": "django.unapplied-migrations",
+        "hint": "unapplied migration",
+        "pattern": "You have (\\d+) unapplied migration\\(s\\)",
+        "severity": "warning",
+        "title": "%diag.migrations.title%",
+        "message": "%diag.migrations.message%",
+        "facets": ["django"],
+        "stages": ["run"],
+        "fixes": [{"id": "migrate", "title": "%fix.migrate%", "kind": "custom", "recommended": true, "confirm": "%confirm.migrate%"}]
+      },
+      {
+        "id": "django.no-such-table",
+        "hint": "no such table",
+        "pattern": "OperationalError: no such table: (\\S+)",
+        "severity": "error",
+        "title": "%diag.noSuchTable.title%",
+        "facets": ["django"],
+        "fixes": [{"id": "migrate", "title": "%fix.migrate%", "kind": "custom", "recommended": true, "confirm": "%confirm.migrate%"}]
+      },
+      {
+        "id": "django.port-in-use",
+        "hint": "That port is already in use",
+        "pattern": "Error: That port is already in use",
+        "severity": "error",
+        "title": "%diag.portBusy.title%",
+        "facets": ["django"]
+      },
+      {
+        "id": "django.not-installed",
+        "hint": "Couldn't import Django",
+        "pattern": "Couldn't import Django",
+        "severity": "error",
+        "title": "%diag.notInstalled.title%",
+        "facets": ["django"],
+        "fixes": [{"id": "install", "title": "%fix.installDeps%", "kind": "installDependencies", "recommended": true}]
+      },
+      {
+        "id": "django.mysqlclient",
+        "hint": "MySQLdb",
+        "pattern": "Error loading MySQLdb module|Did you install mysqlclient",
+        "severity": "error",
+        "title": "%diag.mysqlclient.title%",
+        "facets": ["django"],
+        "fixes": [{"id": "installPackage", "title": "%fix.installMysqlclient%", "kind": "custom", "params": {"package": "mysqlclient"}, "recommended": true}]
+      },
+      {
+        "id": "django.psycopg",
+        "hint": "psycopg",
+        "pattern": "Error loading psycopg2?(?: or psycopg)? module",
+        "severity": "error",
+        "title": "%diag.psycopg.title%",
+        "facets": ["django"],
+        "fixes": [{"id": "installPackage", "title": "%fix.installPsycopg%", "kind": "custom", "params": {"package": "psycopg[binary]"}, "recommended": true}]
+      },
+      {
+        "id": "django.secret-key",
+        "hint": "SECRET_KEY",
+        "pattern": "The SECRET_KEY setting must not be empty",
+        "severity": "error",
+        "title": "%diag.secretKey.title%",
+        "message": "%diag.secretKey.message%",
+        "facets": ["django"]
+      },
+      {
+        "id": "django.db-connection",
+        "hint": "OperationalError",
+        "pattern": "OperationalError: (?:could not connect to server|connection to server .* failed|\\(2003, |\\(2002, )",
+        "severity": "error",
+        "title": "%diag.dbConnection.title%",
+        "message": "%diag.dbConnection.message%",
+        "facets": ["django"]
+      }
+    ],
+    "actions": [
+      {"id": "migrate", "title": "%action.migrate%", "icon": "builtin:database", "facets": ["django"], "group": "build", "locations": ["project.menu", "run.toolbar"], "confirm": "%confirm.migrate%"}
+    ]
+  }
+}

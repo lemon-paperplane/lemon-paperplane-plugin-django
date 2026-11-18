@@ -1,0 +1,49 @@
+{
+  "plugin.name": "Django",
+  "plugin.description": "Detect Django projects, run them with runserver and apply database migrations",
+  "run.server": "Django Server",
+
+  "opt.host": "Host",
+  "opt.host.info": "Use 0.0.0.0 to allow LAN access (ALLOWED_HOSTS must allow it too).",
+  "opt.port": "Port",
+  "opt.settings": "Settings module",
+  "opt.settings.info": "DJANGO_SETTINGS_MODULE; leave empty to use the default from manage.py.",
+  "opt.noreload": "Disable auto-reload",
+  "opt.args": "Extra arguments",
+  "opt.manage": "manage.py",
+  "opt.workingDir": "Working directory",
+  "opt.envFile": "Env file",
+  "opt.envFile.info": ".env file loaded before start, relative to the module directory; leave empty to skip.",
+  "opt.env": "Environment variables",
+
+  "info.framework": "Framework",
+
+  "err.noManage": "manage.py not found",
+  "err.migrate": "migrate failed (exit code {0}): {1}",
+
+  "msg.migrated": "Migrations applied",
+  "msg.installed": "Installed {0}",
+
+  "diag.portInUse.title": "Port {0} is already in use",
+  "diag.portBusy.title": "Port already in use",
+  "diag.migrations.title": "{1} migrations have not been applied",
+  "diag.migrations.message": "Some features (such as the admin site or login) may not work until migrate runs.",
+  "diag.noSuchTable.title": "Table {1} does not exist",
+  "diag.notInstalled.title": "Django is not installed in the environment",
+  "diag.mysqlclient.title": "MySQL driver mysqlclient missing",
+  "diag.psycopg.title": "PostgreSQL driver missing",
+  "diag.secretKey.title": "SECRET_KEY is empty",
+  "diag.secretKey.message": "If settings read SECRET_KEY from the environment, provide it in the run configuration or .env.",
+  "diag.dbConnection.title": "Cannot connect to the database",
+  "diag.dbConnection.message": "Check that the database is running and that the address and credentials in settings or the environment are correct.",
+
+  "fix.usePort": "Use port {0}",
+  "fix.migrate": "Run migrate",
+  "fix.installDeps": "Install dependencies",
+  "fix.installMysqlclient": "Install mysqlclient",
+  "fix.installPsycopg": "Install psycopg",
+
+  "confirm.migrate": "Migrations will be applied to the database configured in settings. This changes the database schema.",
+
+  "action.migrate": "Run migrate"
+}
